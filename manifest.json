@@ -1,0 +1,20 @@
+{
+    "name": "あつ森美術品図鑑",
+    "short_name": "美術品図鑑",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#dff5e1",
+    "theme_color": "#7acb7a",
+    "icons": [
+        {
+            "src": "images/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

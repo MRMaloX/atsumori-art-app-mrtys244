@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>あつ森 美術品図鑑</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <h1>あつ森 美術品図鑑</h1>
+
+    <div id="filter-area">
+
+    <div id="filter-buttons">
+
+        <button id="show-all">すべて</button>
+        <button id="show-owned">所持済み</button>
+        <button id="show-unowned">未所持</button>
+
+    </div>
+
+    <div id="progress-area">
+
+        <div id="progress-count">
+            収集率 0 / 30
+        </div>
+
+        <div id="remaining-count">
+            コンプリートまであと30個
+        </div>
+
+    </div>
+
+</div>
+
+    <div id="empty-message"></div>
+
+    <div id="art-grid"></div>
+
+    <!-- ■モーダル -->
+    <div id="modal" class="hidden">
+
+        <div id="modal-bg"></div>
+
+        <div id="modal-box">
+
+            <div id="modal-content"></div>
+
+            <button id="modal-close">閉じる</button>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+
+    navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+</body>
+
+</html>
