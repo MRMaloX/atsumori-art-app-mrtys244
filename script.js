@@ -241,7 +241,119 @@ const artworks = [
     }
 ];
 
+const sculptures = [
+    {
+        name: "いしあたまなちょうこく",
+        image: "images/sample31.png",
+        fake: "images/dummy31.png",
+        description: "口角が下がっている",
+        owned: false
+    },
+
+    {
+        name: "いだいななちょうこく",
+        image: "images/sample32.png",
+        fake: null,
+        description: null,
+        owned: false
+    },
+
+    {
+        name: "いにしえのちょうこく",
+        image: "images/sample33.png",
+        fake: "images/dummy33.png",
+        description: "耳に何も付いていない",
+        owned: false
+    },
+
+    {
+        name: "うつくしいちょうこく",
+        image: "images/sample34.png",
+        fake: "images/dummy34.png",
+        description: "首に何も付けていない",
+        owned: false
+    },
+
+    {
+        name: "こうごうしいちょうこく",
+        image: "images/sample35.png",
+        fake: "images/dummy35.png",
+        description: "右足を前に出している",
+        owned: false
+    },
+
+    {
+        name: "しんぴてきなちょうこく",
+        image: "images/sample36.png",
+        fake: "images/dummy36.png",
+        description: "右耳に何も付けていない",
+        owned: false
+    },
+
+    {
+        name: "たくましいちょうこく",
+        image: "images/sample37.png",
+        fake: "images/dummy37.png",
+        description: "右腕に何も付けていない",
+        owned: false
+    },
+
+    {
+        name: "てがかりのちょうこく",
+        image: "images/sample38.png",
+        fake: "images/dummy38.png",
+        description: "石が黒い",
+        owned: false
+    },
+
+    {
+        name: "とてつもないちょうこく",
+        image: "images/sample39.png",
+        fake: "images/dummy39.png",
+        description: "蓋が付いていない",
+        owned: false
+    },
+
+    {
+        name: "なじみのあるちょうこく",
+        image: "images/sample40.png",
+        fake: null,
+        description: null,
+        owned: false
+    },
+
+    {
+        name: "ぼせいあふれるちょうこく",
+        image: "images/sample41.png",
+        fake: "images/dummy41.png",
+        description: "牛が舌を出していない",
+        owned: false
+    },
+
+    {
+        name: "もののふのちょうこく",
+        image: "images/sample42.png",
+        fake: "images/dummy42.png",
+        description: "手に何も持っていない",
+        owned: false
+    },
+
+    {
+        name: "りりしいちょうこく",
+        image: "images/sample43.png",
+        fake: "images/dummy43.png",
+        description: "右手に何も持っていない",
+        owned: false
+    },
+];
+
+const museumItems = [
+    ...artworks,
+    ...sculptures
+];
+
 const artGrid = document.getElementById("art-grid");
+const sculptureGrid = document.getElementById("sculpture-grid");
 
 const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modal-content");
@@ -252,7 +364,7 @@ loadOwnedData();
 
 function saveOwnedData() {
 
-    const ownedData = artworks.map((art) => art.owned);
+    const ownedData = museumItems.map(item => item.owned);
 
     localStorage.setItem(
         "atsumori_art_owned",
@@ -273,22 +385,25 @@ function loadOwnedData() {
     const ownedData =
         JSON.parse(savedData);
 
-    artworks.forEach((art, index) => {
+    museumItems.forEach((item, index) => {
 
-        art.owned = ownedData[index];
-    });
+    if (ownedData[index] !== undefined) {
+
+        item.owned = ownedData[index];
+    }
+});
 }
 
 function updateProgress() {
 
     const ownedCount =
-        artworks.filter(art => art.owned).length;
+    museumItems.filter(item => item.owned).length;
 
     const remaining =
-        artworks.length - ownedCount;
+    museumItems.length - ownedCount;
 
     document.getElementById("progress-count").textContent =
-        `収集率 ${ownedCount} / ${artworks.length}`;
+        `収集率 ${ownedCount} / ${museumItems.length}`;
 
     const remainingText =
         document.getElementById("remaining-count");
@@ -354,39 +469,52 @@ function closeModal() {
 
 function renderArtworks() {
 
-    artGrid.innerHTML = "";
+    renderSection(
+        artworks,
+        artGrid
+    );
 
-    artworks
-        .filter((art) => {
+    renderSection(
+        sculptures,
+        sculptureGrid
+    );
+}
+
+function renderSection(items, targetGrid) {
+
+    targetGrid.innerHTML = "";
+
+    items
+        .filter((item) => {
 
             if (currentFilter === "owned") {
-
-                return art.owned;
+                return item.owned;
             }
 
             if (currentFilter === "unowned") {
-
-                return !art.owned;
+                return !item.owned;
             }
 
             return true;
         })
-        .forEach((art) => {
+        .forEach((item) => {
 
-            const card = document.createElement("div");
+            const card =
+                document.createElement("div");
 
             card.className = "art-card";
 
             card.innerHTML = `
-                <img src="${art.image}">
+                <img src="${item.image}">
 
                 <div class="art-name">
-                    ${art.name}
+                    ${item.name}
                 </div>
 
                 <div class="checkbox-area">
                     <label>
-                        <input type="checkbox" ${art.owned ? "checked" : ""}>
+                        <input type="checkbox"
+                        ${item.owned ? "checked" : ""}>
                         <span>所持</span>
                     </label>
                 </div>
@@ -401,7 +529,7 @@ function renderArtworks() {
 
             checkbox.addEventListener("change", () => {
 
-                art.owned = checkbox.checked;
+                item.owned = checkbox.checked;
 
                 saveOwnedData();
 
@@ -410,15 +538,14 @@ function renderArtworks() {
                 renderArtworks();
             });
 
-            const checkBtn =
-                card.querySelector(".check-btn");
+            card
+                .querySelector(".check-btn")
+                .addEventListener("click", () => {
 
-            checkBtn.addEventListener("click", () => {
+                    openModal(item);
+                });
 
-                openModal(art);
-            });
-
-            artGrid.appendChild(card);
+            targetGrid.appendChild(card);
         });
 }
 

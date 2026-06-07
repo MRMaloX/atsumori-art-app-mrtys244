@@ -137,7 +137,8 @@ h1 {
 }
 
 /* ■グリッド */
-#art-grid {
+#art-grid,
+#sculpture-grid {
 
     display: grid;
 
@@ -457,10 +458,24 @@ h1 {
     display: none;
 }
 
+.section-title {
+
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    text-align: center;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    color: #4a7c59;
+}
+
 /* ■レスポンシブ */
 @media (max-width: 1200px) {
 
-    #art-grid {
+    #art-grid,
+    #sculpture-grid {
 
         grid-template-columns: repeat(2, 1fr);
     }
@@ -497,7 +512,8 @@ h1 {
         flex-wrap: wrap;
     }
 
-    #art-grid {
+    #art-grid,
+    #sculpture-grid {
 
         grid-template-columns: 1fr;
     }
